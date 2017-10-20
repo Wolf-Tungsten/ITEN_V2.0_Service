@@ -10,6 +10,8 @@ class UserCollection(CollectionBase):
         result = await self.collection.find_one(condition)
         if result is not None:
             result['_id'] = str(result['_id'])
+            result.pop('password')
+            result.pop('token')
         return result
 
     async def get_user_info_by_id(self, user_id):
@@ -17,21 +19,33 @@ class UserCollection(CollectionBase):
         result = await self.collection.find_one(condition)
         if result is not None:
             result['_id'] = str(result['_id'])
+            result.pop('password')
+            result.pop('token')
         return result
 
     async def get_user_id_by_token(self, token):
         user_info = await self.get_user_info_by_token(token)
         if user_info is not None:
-            return user_info['token']
+            return str(user_info['_id'])
         else:
             return None
 
+    # 用于用户名密码登录时的身份验证，会更新token
     async def get_token(self, username, password):
         condition = {'username': username,
                      'password': password}
         result = await self.collection.find_one(condition)
         if result is not None:
-            return result['token']
+            sha256 = hashlib.sha256()
+            sha256.update(username)
+            sha256.update(password)
+            sha256.update(dt.datetime.now().timestamp())
+            token = sha256.hexdigest()
+            user = {
+                'token': token
+            }
+            await self.update_one_by_id(result['_id'], user)
+            return token
         else:
             return None
 

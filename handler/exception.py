@@ -12,7 +12,7 @@ class MissingArgumentError(HTTPError):
 
 class ResourceNotExistError(HTTPError):
     def __init__(self, res_name):
-        super(ResourceNotExistError, self).__init__(404, "不存在的资源:{0}".format(res_name))
+        super(ResourceNotExistError, self).__init__(404, "不存在的:{0}".format(res_name))
         self.arg_name = res_name
         self.code = errors.RES_NOT_EXIST
 
