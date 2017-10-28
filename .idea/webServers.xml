@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="73d91468-832d-4226-bef4-c3d95a16c38f" name="v4" url="http://wolf.myseu.cn">
+        <fileTransfer host="wolf.myseu.cn" port="6000" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="6000" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

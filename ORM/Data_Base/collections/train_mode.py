@@ -31,3 +31,4 @@ class TrainMode(CollectionBase):
         for item in all_train_modes:
             item.pop('train_data')
         return all_train_modes
+

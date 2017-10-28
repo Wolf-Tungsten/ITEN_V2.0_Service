@@ -1,6 +1,7 @@
 import config
 import datetime as dt
 import random
+from .MachineModel import MachineModel
 
 
 class DataModel(object):
@@ -12,7 +13,8 @@ class DataModel(object):
     def user_get_available_machine(self):
         available_list = []
         for k in self.machine_map:
-            if self.machine_map[k]['state'] == 'free' and dt.datetime.now().timestamp() - self.machine_map[k]['timestamp'] < config.MACHINE_LIFE:
+            if self.machine_map[k].state == 'free' and \
+                                    dt.datetime.now().timestamp() - int(self.machine_map[k].alive) < config.MACHINE_LIFE:
                 available_list.append(k)
         return available_list
 
@@ -21,7 +23,7 @@ class DataModel(object):
             machine_id = self.user_machine_map[user_id]
             machine_state = self.machine_map[machine_id]
             # 如果机器状态为free-训练已经完成-释放网球机
-            if machine_state['state'] == 'free':
+            if machine_state.state == 'free':
                 self.user_machine_map.pop(user_id)
                 machine_id = None
             return machine_id
@@ -38,11 +40,35 @@ class DataModel(object):
             # 确认网球机处于空闲状态
             self.user_machine_map[user_id] = machine_id
             # 将用户和网球机绑定写入字典
-            self.machine_map[machine_id].user_deploy(train_amount=train_amount, train_id=train_id)
+            self.machine_map[machine_id].user_deploy(train_id, train_amount)
             # 部署任务
             return True
         else:
             return False
+
+    def user_pause(self, user_id):
+        machine_id = self.get_machine_id(user_id)
+        if machine_id is not None:
+            return self.machine_map[machine_id].user_pause()
+        else:
+            return False
+
+    def user_stop(self, user_id):
+        machine_id = self.get_machine_id(user_id)
+        if machine_id is not None:
+            return self.machine_map[machine_id].user_stop()
+        else:
+            return False
+
+    def user_resume(self, user_id):
+        machine_id = self.get_machine_id(user_id)
+        if machine_id is not None:
+            return self.machine_map[machine_id].user_resume()
+        else:
+            return False
+
+    def user_command(self, machine_id, command):
+        self.machine_map[machine_id].user_command(command)
 
     def user_send_sms(self, phone_number):
         if phone_number in self.sms_auth:
@@ -75,3 +101,34 @@ class DataModel(object):
                 return False
         else:
             return False
+
+    def hardware_update(self, machine_id, state, train_id, train_name, train_amount, train_count):
+        if machine_id not in self.machine_map:
+            self.machine_map[machine_id] = MachineModel(machine_id,
+                                                        train_name=train_name,
+                                                        state=state,
+                                                        train_id=train_id,
+                                                        train_amount=train_amount,
+                                                        train_count=train_count
+                                                        )
+            machine_state = self.machine_map[machine_id].hardware_state(train_name=train_name,
+                                                                        state=state,
+                                                                        train_id=train_id,
+                                                                        train_amount=train_amount,
+                                                                        train_count=train_count)
+            machine_state['user_id'] = ''
+            return machine_state
+        else:
+            current_user_id = ''
+            for k in self.user_machine_map:
+                if self.user_machine_map[k] == machine_id:
+                    current_user_id = k
+            machine_state = self.machine_map[machine_id].hardware_state(state=state,
+                                                                        train_id=train_id,
+                                                                        train_name=train_name,
+                                                                        train_amount=train_amount,
+                                                                        train_count=train_count)
+            machine_state['user_id'] = current_user_id
+            return machine_state
+
+

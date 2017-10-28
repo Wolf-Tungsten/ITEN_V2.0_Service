@@ -37,9 +37,9 @@ class UserCollection(CollectionBase):
         result = await self.collection.find_one(condition)
         if result is not None:
             sha256 = hashlib.sha256()
-            sha256.update(username)
-            sha256.update(password)
-            sha256.update(dt.datetime.now().timestamp())
+            sha256.update(username.encode('utf8'))
+            sha256.update(password.encode('utf8'))
+            sha256.update(str(dt.datetime.now().timestamp()).encode('utf8'))
             token = sha256.hexdigest()
             user = {
                 'token': token
@@ -51,9 +51,9 @@ class UserCollection(CollectionBase):
 
     async def add_user(self, username, password, phone_number, privilege=0, timer=0):
         sha256 = hashlib.sha256()
-        sha256.update(username)
-        sha256.update(password)
-        sha256.update(dt.datetime.now().timestamp())
+        sha256.update(username.encode('utf8'))
+        sha256.update(password.encode('utf8'))
+        sha256.update(str(dt.datetime.now().timestamp()).encode('utf8'))
         token = sha256.hexdigest()
         doc = {
                'username': username,

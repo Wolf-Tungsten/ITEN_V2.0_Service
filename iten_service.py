@@ -19,9 +19,6 @@ mongodb_database = mongodb_client[options.db_name]
 
 orm = ORM(mongodb_database)
 
-md5 = hashlib.md5()
-md5.update(str(dt.datetime.now().timestamp()))
-cookie_secret = md5.hexdigest()
 
 application = tornado.web.Application(
     handlers=routes.handlers,
@@ -33,9 +30,7 @@ application = tornado.web.Application(
     static_hash_cache=True,
     autoreload=True,
     debug_mode=True,
-    cookie_secret=cookie_secret
 )
-
 
 
 if __name__ == "__main__":
