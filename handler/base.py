@@ -8,13 +8,17 @@ DEFAULT_TYPE = []
 
 class BaseHandler(RequestHandler):
 
+    def set_default_headers(self):
+        self.set_header("Access-Control-Allow-Origin", "*")
+        self.set_header("Access-Control-Allow-Headers", "Access-Token")
+        self.set_header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT, DELETE')
     # 支持跨域的服务
     def finish(self, chunk=None):
-        self.set_header('Access-Control-Allow-Origin', '*')
-        self.set_header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE')
+        #self.set_header('Access-Control-Allow-Origin', '*')
+        #self.set_header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE')
         super(BaseHandler, self).finish(chunk)
 
-    def options(self):
+    def options(self, args):
         self.finish()
 
     @property

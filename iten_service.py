@@ -8,7 +8,7 @@ import hashlib
 import datetime as dt
 
 
-define("port", default=5500, help="本地监听端口", type=int)
+define("port", default=5601, help="本地监听端口", type=int)
 define("DEBUG", default=True, help="是否开启debug模式", type=bool)
 define("TEST", default=True, help="测试服务器，支持跨域访问,推送测试模式", type=bool)
 define("db_name", default="iten", help="mongodb数据库名称", type=str)

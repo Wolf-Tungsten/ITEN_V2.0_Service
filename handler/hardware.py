@@ -9,9 +9,10 @@ from tornado.web import RequestHandler
 
 class HardwareHandler(BaseHandler):
     async def get(self, operation):
-        user_id = await self.user_id
+
         if operation == 'state':
             # Web API
+            user_id = await self.user_id
             machine_info = self.model.user_get_machine_info(user_id)
             if machine_info is not None:
                 self.write({
@@ -36,7 +37,7 @@ class HardwareHandler(BaseHandler):
         elif operation == 'arguments':
             # Machine API
             machine_id = self.get_argument('machine_id')
-            arguments = self.db.machine_arguments.get_arugments(machine_id)
+            arguments = await self.db.machine_arguments.get_arguments(machine_id)
             if arguments is not None:
                 self.write({
                     'has': True,
@@ -95,15 +96,33 @@ class HardwareHandler(BaseHandler):
             state = self.model.hardware_update(machine_id, state, train_id, train_name, train_amount, train_count)
             self.write(state)
         elif operation == 'arguments':
-            machine_id = self.get_argument('machine_id')
-            args = await self.db.machine_arguments.get_arugments(machine_id)
-            self.write({
-                'has': args is None,
-                'arguments': args
-            })
+            # Web API
+            if await self.user_privilege >=  1:
+                machine_id = self.get_argument('machine_id')
+                args = self.get_argument('arguments')
+                await self.db.machine_arguments.add_arguments(machine_id, args)
+                self.write({
+                    'flag': True,
+                    'arguments': args
+                })
+            else:
+                raise PermissionDeniedError('只允许管理员修改参数')
 
         else:
             raise ResourceNotExistError('不知道你想干什么')
+    async def put(self, operation):
+        if operation == 'arguments':
+            # Web API
+            if await self.user_privilege == 1:
+                machine_id = self.get_argument('machine_id')
+                args = self.get_argument('arguments')
+                await self.db.machine_arguments.update_argu2017ments(machine_id, args)
+                self.write({
+                    'flag': True,
+                    'arguments': args
+                })
+            else:
+                raise PermissionDeniedError('只允许管理员修改参数')
 
 
 

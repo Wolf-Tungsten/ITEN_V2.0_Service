@@ -24,6 +24,7 @@ class TrainMode(CollectionBase):
             'train_name': train_name,
             'train_data': train_data
         }
+        pass
         await self.update_one_by_id(train_id, train_mode)
 
     async def get_train_mode_list(self):

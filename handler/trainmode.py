@@ -26,7 +26,7 @@ class TrainModeHandler(BaseHandler):
             train_name = self.get_argument('train_name')
             train_data = self.get_argument('train_data')
             await self.db.train_mode.add_train_mode(train_name, train_data)
-            self.write({'flag':True})
+            self.write({'flag': True})
         else:
             raise PermissionDeniedError('只允许管理员添加训练模式')
 
