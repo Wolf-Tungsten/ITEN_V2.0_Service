@@ -80,4 +80,11 @@ class UserCollection(CollectionBase):
         current['timer'] = current['timer'] + delta
         await self.update_one_by_id(user_id, current)
 
+    async def check_username_available(self, username):
+        count = await self.collection.count({'username': username})
+        if count > 0:
+            return False
+        else:
+            return True
+
 

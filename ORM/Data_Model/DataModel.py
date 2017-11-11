@@ -2,6 +2,7 @@ import config
 import datetime as dt
 import random
 from .MachineModel import MachineModel
+import sdk.yunpian_sdk as YP
 
 
 class DataModel(object):
@@ -78,21 +79,26 @@ class DataModel(object):
                 return False
                 # 验证码已经发送并且低于频率，防止恶意攻击
         sms_token = random.randint(100000, 999999)
+        print(sms_token, phone_number)
         sms_token = str(sms_token)
         self.sms_auth[phone_number] = {
             'timestamp': dt.datetime.now().timestamp(),
             'sms_token': sms_token
         }
         # TODO 发送短信逻辑
+        r = YP.send_sms(phone_number, sms_token)
+        print(r)
         return True
 
     def user_check_sms(self, phone_number, sms_token):
         if phone_number in self.sms_auth:
+            sms_token = str(sms_token)
             last_timestamp = self.sms_auth[phone_number]['timestamp']
             current_timestamp = dt.datetime.now().timestamp()
             if current_timestamp - last_timestamp < config.SMS_LIFE:
                 # 检查验证码是否过期
-                auth = sms_token == self.sms_auth['sms_token']
+                print('校验结果',sms_token,self.sms_auth[phone_number]['sms_token'])
+                auth = (sms_token == self.sms_auth[phone_number]['sms_token'])
                 self.sms_auth.pop(phone_number)
                 return auth  # 返回校验结果
             else:
