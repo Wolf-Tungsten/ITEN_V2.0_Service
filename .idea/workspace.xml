@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ec8b1fe0-bc25-4e7e-9109-9636139ad8b4" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/sdk/geetest.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/sdk/yunpian_sdk.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ORM/Data_Base/collections/user.py" afterPath="$PROJECT_DIR$/ORM/Data_Base/collections/user.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ORM/Data_Model/DataModel.py" afterPath="$PROJECT_DIR$/ORM/Data_Model/DataModel.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/handler/auth.py" afterPath="$PROJECT_DIR$/handler/auth.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -183,7 +178,7 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="-70" />
-    <option name="y" value="133" />
+    <option name="y" value="44" />
     <option name="width" value="1280" />
     <option name="height" value="705" />
   </component>
@@ -466,11 +461,18 @@
       <option name="project" value="LOCAL" />
       <updated>1510383317662</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="云片及极验接入完成">
+      <created>1510403889200</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1510403889200</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-70" y="133" width="1280" height="705" extended-state="0" />
+    <frame x="-70" y="44" width="1280" height="705" extended-state="0" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -507,7 +509,8 @@
     <MESSAGE value="修复auth以及hardware handler里面的一票bug" />
     <MESSAGE value="前端适配完成" />
     <MESSAGE value="七牛视频sdk测试通过" />
-    <option name="LAST_COMMIT_MESSAGE" value="七牛视频sdk测试通过" />
+    <MESSAGE value="云片及极验接入完成" />
+    <option name="LAST_COMMIT_MESSAGE" value="云片及极验接入完成" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
