@@ -18,7 +18,8 @@ class VideoHandler(BaseHandler):
     async def post(self, operator):
         user_id = self.get_argument('user_id')
         video_url = self.get_argument('video_url')
-        await self.db.video_playback.add_video(user_id=user_id, video_url=video_url)
+        key = self.get_argument('key')
+        await self.db.video_playback.add_video(user_id=user_id, video_url=video_url, key=key)
         self.write({
             'flag': True
         })
